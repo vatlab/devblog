@@ -90,7 +90,7 @@ and if we install <code>sos</code> then changes in local repository will not be 
 a bug with <code>pip</code>, <code>pip install . -U</code> is very slow with a local <code>.git</code> directory (because <code>pip</code> basically needs
 to copy everything to a temporary directory) so we have to figure out something to assist the debug.</p>
 
-<h2 id="tool-1-in-place-installation">Tool 1: in-place installation.</h2>
+<h2 id="trick-1-in-place-installation">Trick 1: in-place installation.</h2>
 
 <p>First, run</p>
 
@@ -121,7 +121,7 @@ such as</p>
 
 <p>This will save the need to run <code>pip install . -U</code> repeatedly during development.</p>
 
-<h2 id="too-2-debuggin-with-vs-code">Too 2: debuggin with VS code</h2>
+<h2 id="trick-2-debuggin-with-vs-code">Trick 2: debuggin with VS code</h2>
 
 <p>There can be multiple platform for debugging but I am just showing what works on my mac.</p>
 

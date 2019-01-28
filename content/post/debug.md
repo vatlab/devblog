@@ -14,7 +14,7 @@ and if we install `sos` then changes in local repository will not be reflected i
 a bug with `pip`, `pip install . -U` is very slow with a local `.git` directory (because `pip` basically needs
 to copy everything to a temporary directory) so we have to figure out something to assist the debug.
 
-## Tool 1: in-place installation.
+## Trick 1: in-place installation.
 
 First, run
 
@@ -50,7 +50,7 @@ so that `sos`, when executed, will load `.py` files from local `sos/src` directo
 This will save the need to run `pip install . -U` repeatedly during development.
 
 
-## Too 2: debuggin with VS code
+## Trick 2: debuggin with VS code
 
 There can be multiple platform for debugging but I am just showing what works on my mac.
 
