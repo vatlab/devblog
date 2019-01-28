@@ -14,7 +14,7 @@
 <title>How to debug SoS | vatlab</title>
 
 <meta property='og:title' content='How to debug SoS - vatlab'>
-<meta property='og:description' content='The problem SoS command line is generated from an entry point so there is no sos command if the command is not installed, and if we install sos then changes in local repository will not be reflected in the installed version. Due to a bug with pip, pip install . -U is very slow with a local .git directory (because pip basically needs to copy everything to a temporary directory) so we have to figure out something to assist the debug.'>
+<meta property='og:description' content='The problem SoS command line is generated from an entry point so there is no sos command if the command is not installed, and if we install sos then changes in local repository will not be reflected in the installed version. Due to a bug with pip, pip install . -U is very slow with a local .git directory (because pip basically copies everything to a temporary directory before building) so it can be tedious to install sos to the system directory for debugging.'>
 <meta property='og:url' content='https://vatlab.github.io/devblog/post/debug/'>
 <meta property='og:site_name' content='vatlab'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/969c44b6bc34a74a2f1d1dc59ddaa98f?s=256'><meta property='article:section' content='Post'><meta property='article:tag' content='debug'><meta property='article:tag' content='pip'><meta property='article:tag' content='vs-code'><meta property='article:published_time' content='2017-11-29T00:00:00Z'/><meta property='article:modified_time' content='2017-11-29T00:00:00Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@ScriptOfScripts'><meta name='twitter:creator' content='@ScriptOfScripts'>
@@ -87,25 +87,26 @@
 
 <p>SoS command line is generated from an entry point so there is no <code>sos</code> command if the command is not installed,
 and if we install <code>sos</code> then changes in local repository will not be reflected in the installed version. Due to
-a bug with <code>pip</code>, <code>pip install . -U</code> is very slow with a local <code>.git</code> directory (because <code>pip</code> basically needs
-to copy everything to a temporary directory) so we have to figure out something to assist the debug.</p>
+a bug with <code>pip</code>, <code>pip install . -U</code> is very slow with a local <code>.git</code> directory (because <code>pip</code> basically
+copies everything to a temporary directory before building) so it can be tedious to install <code>sos</code> to the system
+directory for debugging.</p>
 
 <h2 id="trick-1-in-place-installation">Trick 1: in-place installation.</h2>
 
-<p>First, run</p>
+<p>Run</p>
 
 <pre><code>% pip uninstall sos
 </code></pre>
 
 <p>to remove system installed <code>sos</code>, which will do nothing but interfere with locally installed sos.</p>
 
-<p>Second, run</p>
+<p>Then run</p>
 
 <pre><code>% pip install . -e
 
 </code></pre>
 
-<p>The <code>-e</code> option installs <code>sos</code> inplace. It will install a <code>sos</code> command but the <code>sos</code> command
+<p>to install <code>sos</code> inplace. It will install a <code>sos</code> command but the <code>sos</code> command
 will point to the local directory for package source. More specifically, it will create a file
 such as</p>
 
@@ -119,11 +120,12 @@ such as</p>
 
 <p>so that <code>sos</code>, when executed, will load <code>.py</code> files from local <code>sos/src</code> directory.</p>
 
-<p>This will save the need to run <code>pip install . -U</code> repeatedly during development.</p>
+<p>Now, when you make changes to the source tree of SoS, you can run it directly without having
+to install <code>sos</code> again.</p>
 
-<h2 id="trick-2-debuggin-with-vs-code">Trick 2: debuggin with VS code</h2>
+<h2 id="trick-2-debugging-with-vs-code">Trick 2: Debugging with VS code</h2>
 
-<p>There can be multiple platform for debugging but I am just showing what works on my mac.</p>
+<p>There can be multiple platform for debugging but I am just showing what works for me on my mac.</p>
 
 <ol>
 <li>Install <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></li>
@@ -137,7 +139,7 @@ such as</p>
 directory with name <code>test.sos</code>.</p>
 
 <ol>
-<li>Start VS Code with command <code>code .</code> under the <code>sos</code> directory.</li>
+<li>Start VS Code with command <code>code .</code> with the current directory as the project folder.</li>
 <li>Click debug, add configuration, and insert the following into the configuration file</li>
 </ol>
 
@@ -157,12 +159,8 @@ directory with name <code>test.sos</code>.</p>
 <p>This will let <code>code</code> start sos with command <code>python -m sos.__main__</code> with the provided options. Of course
    you will need to edit the configuration file if you need to add more options.</p>
 
-<p>Note that:</p>
-
-<ol>
-<li>Debug, toggle break point is useful</li>
-<li>You can use function <code>break_point()</code> to trigger a break point in the code.</li>
-</ol>
+<p>Another tricky is that in addition to using <code>Debug</code> -&gt; <code>toggle break point</code> from the manual, you can use
+function <code>break_point()</code> to trigger a break point in the code.</p>
 
     </div>
     

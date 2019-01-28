@@ -11,12 +11,13 @@ tags: ["debug", "pip", "vs-code"]
 
 SoS command line is generated from an entry point so there is no `sos` command if the command is not installed, 
 and if we install `sos` then changes in local repository will not be reflected in the installed version. Due to
-a bug with `pip`, `pip install . -U` is very slow with a local `.git` directory (because `pip` basically needs
-to copy everything to a temporary directory) so we have to figure out something to assist the debug.
+a bug with `pip`, `pip install . -U` is very slow with a local `.git` directory (because `pip` basically 
+copies everything to a temporary directory before building) so it can be tedious to install `sos` to the system
+directory for debugging.
 
 ## Trick 1: in-place installation.
 
-First, run
+Run
 
 
 ```
@@ -25,14 +26,14 @@ First, run
 
 to remove system installed `sos`, which will do nothing but interfere with locally installed sos.
 
-Second, run
+Then run
 
 ```
 % pip install . -e
 
 ```
 
-The `-e` option installs `sos` inplace. It will install a `sos` command but the `sos` command
+to install `sos` inplace. It will install a `sos` command but the `sos` command
 will point to the local directory for package source. More specifically, it will create a file
 such as
 
@@ -47,12 +48,13 @@ with content
 
 so that `sos`, when executed, will load `.py` files from local `sos/src` directory.
 
-This will save the need to run `pip install . -U` repeatedly during development.
+Now, when you make changes to the source tree of SoS, you can run it directly without having
+to install `sos` again.
 
 
-## Trick 2: debuggin with VS code
+## Trick 2: Debugging with VS code
 
-There can be multiple platform for debugging but I am just showing what works on my mac.
+There can be multiple platform for debugging but I am just showing what works for me on my mac.
 
 1. Install [Visual Studio Code](https://code.visualstudio.com/)
 2. Install [Python extension for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
@@ -64,7 +66,7 @@ There can be multiple platform for debugging but I am just showing what works on
 Now, let us assume that we always want to debug the execution of a workflow defined in the local
 directory with name `test.sos`.
 
-1. Start VS Code with command `code .` under the `sos` directory.
+1. Start VS Code with command `code .` with the current directory as the project folder.
 2. Click debug, add configuration, and insert the following into the configuration file
 
    ```
@@ -85,8 +87,6 @@ directory with name `test.sos`.
    you will need to edit the configuration file if you need to add more options.
 
 
-Note that:
-
-1. Debug, toggle break point is useful
-2. You can use function `break_point()` to trigger a break point in the code.
+Another tricky is that in addition to using `Debug` -> `toggle break point` from the manual, you can use
+function `break_point()` to trigger a break point in the code.
 
