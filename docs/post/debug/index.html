@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en-us">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    
+<title>How to debug SoS | vatlab</title>
+
+<meta property='og:title' content='How to debug SoS - vatlab'>
+<meta property='og:description' content='The problem SoS command line is generated from an entry point so there is no sos command if the command is not installed, and if we install sos then changes in local repository will not be reflected in the installed version. Due to a bug with pip, pip install . -U is very slow with a local .git directory (because pip basically needs to copy everything to a temporary directory) so we have to figure out something to assist the debug.'>
+<meta property='og:url' content='https://vatlab.github.io/blog/post/debug/'>
+<meta property='og:site_name' content='vatlab'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/969c44b6bc34a74a2f1d1dc59ddaa98f?s=256'><meta property='article:section' content='Post'><meta property='article:tag' content='debug'><meta property='article:tag' content='pip'><meta property='article:tag' content='vs-code'><meta property='article:published_time' content='2017-11-29T00:00:00Z'/><meta property='article:modified_time' content='2017-11-29T00:00:00Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@ScriptOfScripts'><meta name='twitter:creator' content='@ScriptOfScripts'>
+<link rel="stylesheet" href="https://vatlab.github.io/blog//css/style.css"/><link rel='stylesheet' href='https://vatlab.github.io/blog/css/custom.css'></head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://vatlab.github.io/blog/"><h1 class="title is-4">vatlab
+			   </h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" href='mailto:bpeng@mdanderson.org' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://github.com/vatlab' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://twitter.com/ScriptOfScripts' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="subtitle is-6 is-pulled-right">
+      
+      
+<a class="subtitle is-6" href="https://vatlab.github.io/blog/tags/debug">#debug</a>
+
+
+
+  
+  | <a class="subtitle is-6" href="https://vatlab.github.io/blog/tags/pip">#pip</a>
+  
+  | <a class="subtitle is-6" href="https://vatlab.github.io/blog/tags/vs-code">#vs-code</a>
+  
+
+      
+    </div>
+    <h2 class="subtitle is-6">November 29, 2017</h2>
+    <h1 class="title">How to debug SoS</h1>
+      
+    <div class="content">
+      
+
+<h2 id="the-problem">The problem</h2>
+
+<p>SoS command line is generated from an entry point so there is no <code>sos</code> command if the command is not installed,
+and if we install <code>sos</code> then changes in local repository will not be reflected in the installed version. Due to
+a bug with <code>pip</code>, <code>pip install . -U</code> is very slow with a local <code>.git</code> directory (because <code>pip</code> basically needs
+to copy everything to a temporary directory) so we have to figure out something to assist the debug.</p>
+
+<h2 id="tool-1-in-place-installation">Tool 1: in-place installation.</h2>
+
+<p>First, run</p>
+
+<pre><code>% pip uninstall sos
+</code></pre>
+
+<p>to remove system installed <code>sos</code>, which will do nothing but interfere with locally installed sos.</p>
+
+<p>Second, run</p>
+
+<pre><code>% pip install . -e
+
+</code></pre>
+
+<p>The <code>-e</code> option installs <code>sos</code> inplace. It will install a <code>sos</code> command but the <code>sos</code> command
+will point to the local directory for package source. More specifically, it will create a file
+such as</p>
+
+<pre><code>/Users/bpeng1/anaconda3/envs/dev/lib/python3.6/site-packages/sos.egg-link
+</code></pre>
+
+<p>with content</p>
+
+<pre><code>/Users/bpeng1/dev/sos/src
+</code></pre>
+
+<p>so that <code>sos</code>, when executed, will load <code>.py</code> files from local <code>sos/src</code> directory.</p>
+
+<p>This will save the need to run <code>pip install . -U</code> repeatedly during development.</p>
+
+<h2 id="too-2-debuggin-with-vs-code">Too 2: debuggin with VS code</h2>
+
+<p>There can be multiple platform for debugging but I am just showing what works on my mac.</p>
+
+<ol>
+<li>Install <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></li>
+<li>Install <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python" target="_blank">Python extension for VS Code</a></li>
+<li>Follow the tutorial to install a linter.</li>
+<li>C-S-P (open command pallete), search shell, and install <code>code</code> command to <code>$PATH</code>, which is helpful to start
+<code>code</code> in the project path.</li>
+</ol>
+
+<p>Now, let us assume that we always want to debug the execution of a workflow defined in the local
+directory with name <code>test.sos</code>.</p>
+
+<ol>
+<li>Start VS Code with command <code>code .</code> under the <code>sos</code> directory.</li>
+<li>Click debug, add configuration, and insert the following into the configuration file</li>
+</ol>
+
+<pre><code>        {
+            &quot;name&quot;: &quot;Python: SoS &quot;,
+            &quot;type&quot;: &quot;python&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;module&quot;: &quot;sos.__main__&quot;,
+            &quot;console&quot;: &quot;integratedTerminal&quot;,
+            &quot;args&quot;: [
+                &quot;run&quot;,
+                &quot;test.sos&quot;,
+            ]
+        },
+</code></pre>
+
+<p>This will let <code>code</code> start sos with command <code>python -m sos.__main__</code> with the provided options. Of course
+   you will need to edit the configuration file if you need to add more options.</p>
+
+<p>Note that:</p>
+
+<ol>
+<li>Debug, toggle break point is useful</li>
+<li>You can use function <code>break_point()</code> to trigger a break point in the code.</li>
+</ol>
+
+    </div>
+    
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; <a href="https://faculty.mdanderson.org/profiles/bo_peng.html">Bo Peng, Ph.D. / MD Anderson Cancer Center</a> All rights reserved</p>
+    
+  </div>
+</section>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-107286198-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+<script>
+
+$(document).ready(function(){
+    $(".result").click(function(){
+      $(this).toggleClass('expanded')
+      $(this).nextUntil('tr.result').slideToggle(100, function(){
+     });
+   });
+   $(".detail").click(function(){
+     $(this).prev().toggleClass('expanded');
+     $(this).slideToggle(100, function(){
+    });
+  });
+});
+
+</script>
+</html>

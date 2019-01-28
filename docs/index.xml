@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vatlab</title>
+    <link>https://vatlab.github.io/blog/</link>
+    <description>Recent content on vatlab</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; &lt;a href=&#34;https://faculty.mdanderson.org/profiles/bo_peng.html&#34;&gt;Bo Peng, Ph.D. / MD Anderson Cancer Center&lt;/a&gt; All rights reserved</copyright>
+    <lastBuildDate>Wed, 29 Nov 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://vatlab.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to debug SoS</title>
+      <link>https://vatlab.github.io/blog/post/debug/</link>
+      <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://vatlab.github.io/blog/post/debug/</guid>
+      <description>The problem SoS command line is generated from an entry point so there is no sos command if the command is not installed, and if we install sos then changes in local repository will not be reflected in the installed version. Due to a bug with pip, pip install . -U is very slow with a local .git directory (because pip basically needs to copy everything to a temporary directory) so we have to figure out something to assist the debug.</description>
+    </item>
+    
+  </channel>
+</rss>

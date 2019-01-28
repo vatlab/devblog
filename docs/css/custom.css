@@ -1,0 +1,91 @@
+#gh-comments {
+  text-align: center;
+}
+
+#gh-comment {
+  text-align: left;
+/*  color:#FFF;*/
+/*  background-color:#272822;*/
+/*  border: 1px solid #b3b3b3;*/
+  margin:2.5em 0;
+  padding:10px;
+}
+
+#gh-comment-hr {
+/*  border-top: inset 1px white;*/
+  margin: 8px 0px;
+}
+
+#gh-comment p {
+  margin:0px;
+}
+
+#gh-comment img {
+  display: inline;
+  vertical-align: middle;
+  margin: 2px 10px 2px 2px;
+}
+
+/* do not leave margin for emoji img */
+#gh-comment img.emoji {
+	margin: 0px;
+}
+a:hover {
+	text-decoration: none;
+}
+
+p img {
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 90%;
+}
+
+div iframe {
+	display: block;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+.content h4 {
+	color: #2077b2;
+	margin-top: 15px!important;
+	margin-bottom: 5px!important;
+	font-weight: 150%!important;
+}
+
+.comparison table td,
+.comparison table th{
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+.comparison table tr td:first-child,
+.comparison table tr th:first-child{
+  width: 20%;
+}
+.comparison table tr td:not(:first-child),
+.comparison table tr th:not(:first-child) {
+  width: 16%;
+}
+table thead th {
+  font-weight:bold;
+  color: white;
+  background-color: darkgray;
+}
+
+.content a:not(.button) {
+    border-bottom: 0px;
+}
+
+.detail {
+  display: none;
+  font-size: 70%;
+  background-color: #F8F8F8;
+}
+.expanded {
+  background-color: #F8F8F8;
+}
+.detail table tr {
+  border-top: none;
+}
