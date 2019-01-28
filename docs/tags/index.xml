@@ -2,40 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on vatlab</title>
-    <link>https://vatlab.github.io/blog/tags/</link>
+    <link>https://vatlab.github.io/devblog/tags/</link>
     <description>Recent content in Tags on vatlab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://faculty.mdanderson.org/profiles/bo_peng.html&#34;&gt;Bo Peng, Ph.D. / MD Anderson Cancer Center&lt;/a&gt; All rights reserved</copyright>
     <lastBuildDate>Wed, 29 Nov 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://vatlab.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://vatlab.github.io/devblog/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Debug</title>
-      <link>https://vatlab.github.io/blog/tags/debug/</link>
+      <link>https://vatlab.github.io/devblog/tags/debug/</link>
       <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://vatlab.github.io/blog/tags/debug/</guid>
+      <guid>https://vatlab.github.io/devblog/tags/debug/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Pip</title>
-      <link>https://vatlab.github.io/blog/tags/pip/</link>
+      <link>https://vatlab.github.io/devblog/tags/pip/</link>
       <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://vatlab.github.io/blog/tags/pip/</guid>
+      <guid>https://vatlab.github.io/devblog/tags/pip/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Vs Code</title>
-      <link>https://vatlab.github.io/blog/tags/vs-code/</link>
+      <link>https://vatlab.github.io/devblog/tags/vs-code/</link>
       <pubDate>Wed, 29 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://vatlab.github.io/blog/tags/vs-code/</guid>
+      <guid>https://vatlab.github.io/devblog/tags/vs-code/</guid>
       <description></description>
     </item>
     
